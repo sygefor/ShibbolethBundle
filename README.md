@@ -6,7 +6,7 @@ This bundle adds a shibboleth authentication provider for your Symfony2 project.
 Requirements
 ------------
 * [PHP](http://php.net) 5.3.3 and up.
-* [Symfony 2.2+][http://symfony.com]
+* [Symfony 3.0+][http://symfony.com]
 
 Installation
 ------------
@@ -18,13 +18,13 @@ ShibbolethBundle is composer-friendly.
 ```js
     "require": {
         ...
-        "kuleuven/shibboleth-bundle": "dev-master"
+        "sygefor/shibboleth-bundle": "dev-master"
         ...
     },
    "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:rmoreas/ShibbolethBundle.git"
+            "url": "git@github.com:sygefor/ShibbolethBundle.git"
         }
     ],
 ```

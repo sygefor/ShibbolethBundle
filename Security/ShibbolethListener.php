@@ -27,16 +27,17 @@ namespace KULeuven\ShibbolethBundle\Security;
 use KULeuven\ShibbolethBundle\Service\Shibboleth;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class ShibbolethListener implements ListenerInterface
 {
@@ -50,12 +51,12 @@ class ShibbolethListener implements ListenerInterface
     private $shibboleth;
 
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorage $securityContext,
         AuthenticationManagerInterface $authenticationManager,
         Shibboleth $shibboleth,
         $providerKey = null,
         AuthenticationEntryPointInterface $authenticationEntryPoint = null,
-        LoggerInterface $logger = null,
+        Logger $logger = null,
         EventDispatcherInterface $dispatcher = null
     ) {
         if (empty($providerKey)) {
@@ -107,7 +108,7 @@ class ShibbolethListener implements ListenerInterface
                 $this->logger->debug(sprintf('ShibbolethListener: received token: %s', $token));
             }
 
-            if ($token instanceof TokenInterface) {
+            if ($token instanceof AbstractToken) {
                 if (null !== $this->logger) {
                     $this->logger->debug(sprintf('Authentication success: %s', $token));
                 }
